@@ -94,42 +94,13 @@ jobs:
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
          
           # copy os userpatches
-          cp -rf ./custom/Addboard/* ./build
+          mkdir -p  ./build/userpatches
+          cp -rf ./custom/config/* ./build/config
+          cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-          
-          # Update Env
-          set +e
-          docker rmi `docker images -q`
-          [[ -n "${AGENT_TOOLSDIRECTORY}" ]] && sudo rm -rf "${AGENT_TOOLSDIRECTORY}"
-          sudo rm -rf /usr/share/dotnet /etc/apt/sources.list.d /usr/local/lib/android 2>/dev/null
-          sudo -E apt-get -y update
-          sudo -E apt-get -y purge azure-cli ghc* zulu* llvm* firefox google* dotnet* powershell openjdk* mongodb* moby* || true
-          sudo -E systemctl daemon-reload
-          echo "Deleting files, please wait ..."
-          sudo rm -rf \
-            /usr/share/dotnet \
-            /etc/mysql \
-            /etc/php \
-            /opt/*
-          sudo -E apt-get -y purge \
-            azure-cli \
-            ghc* \
-            zulu* \
-            hhvm \
-            llvm* \
-            firefox \
-            google* \
-            dotnet* \
-            powershell \
-            openjdk* \
-            mysql* \
-            php*
-          sudo -E apt-get update
-
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ]
         shell: bash
         run: |
-
           # go to build folder
           cd ./build
 
@@ -150,8 +121,8 @@ jobs:
           SHARE_LOG=no \
           DEBUG=yes \
           VENDOR=Armbian \
-          IMAGE_XZ_COMPRESSION_RATIO=5 \
-          COMPRESS_OUTPUTIMAGE=sha,gpg,gz
+          IMAGE_XZ_COMPRESSION_RATIO=9 \
+          COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
       - name: "Generate body file"
         if: success()
