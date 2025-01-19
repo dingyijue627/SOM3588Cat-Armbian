@@ -121,7 +121,6 @@ jobs:
           SHARE_LOG=no \
           DEBUG=yes \
           VENDOR=Armbian \
-          IMAGE_XZ_COMPRESSION_RATIO=9 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
       - name: "Generate body file"
