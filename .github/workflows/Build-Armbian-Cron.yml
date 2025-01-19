@@ -46,9 +46,16 @@ jobs:
           - bookworm
           - noble
           - trixie
-       
-      - name: "Checkout Armbian build"
+          
+    steps:
+      - name: "Checkout Armbian"
         uses: actions/checkout@main
+        with:
+          fetch-depth: 0
+          clean: false
+          path: custom
+          
+      - uses: actions/checkout@main
         with:
           repository: armbian/build
           clean: false
