@@ -90,6 +90,10 @@ jobs:
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          
+          # read version from upstream Armbian OS
+          cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
           mkdir -p  ./build/userpatches
@@ -119,7 +123,7 @@ jobs:
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           PREFER_DOCKER="yes" \
-          DOCKER_ARMBIAN_BASE_IMAGEu="ubuntu:noble" \
+          DOCKER_ARMBIAN_BASE_IMAGE="ubuntu:noble" \
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
