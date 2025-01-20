@@ -148,7 +148,7 @@ jobs:
           ENABLE_EXTENSIONS="mesa-vpu" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          DEBUG=yes \
+          BETA=no \
           PREFER_DOCKER="${{ inputs.DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
