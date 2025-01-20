@@ -63,7 +63,7 @@ on:
         options:
         - ubuntu:jammy
         - ubuntu:noble
-        - debian:bookworm
+        - docker-armbian-build:armbian-ubuntu-noble-latest
         default: 'ubuntu:jammy'
 
 
