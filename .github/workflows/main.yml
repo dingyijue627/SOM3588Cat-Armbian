@@ -140,7 +140,7 @@ jobs:
           RELEASE="${{ inputs.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
-          BUILD_MINIMAL="{{ env.BUILD_MINIMAL }}" \
+          BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
