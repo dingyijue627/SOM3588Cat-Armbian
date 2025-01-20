@@ -122,7 +122,7 @@ jobs:
           COMPRESS_OUTPUTIMAGE="sha,gpg,xz" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          PREFER_DOCKER="no \
+          PREFER_DOCKER="no" \
           DOCKER_ARMBIAN_BASE_IMAGE="ubuntu:noble" \
           EXPERT="yes" \
           VENDOR=Armbian \
