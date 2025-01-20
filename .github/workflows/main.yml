@@ -119,7 +119,7 @@ jobs:
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
           
           # read version from upstream Armbian OS
-          cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
           [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
@@ -135,6 +135,7 @@ jobs:
 
           # execute build command
           ./compile.sh \
+          REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE="${{ inputs.RELEASE }}" \
@@ -147,6 +148,7 @@ jobs:
           ENABLE_EXTENSIONS="mesa-vpu" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
+          DEBUG=yes \
           PREFER_DOCKER="${{ inputs.DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
@@ -169,7 +171,7 @@ jobs:
               <br>
 
               - Board: ${{ inputs.BOARD }} 
-              - Version: V${{ env.VERSIONOS }} 
+              - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
               
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
@@ -180,8 +182,8 @@ jobs:
         uses: ncipollo/release-action@main
         if: success()
         with:
-          tag: "Armbian_V${{ env.VERSIONOS }}"
-          name: "Armbian_V${{ env.VERSIONOS }}"
+          tag: "Armbian_V${{ env.ARMBIAN_VERSION }}"
+          name: "Armbian_V${{ env.ARMBIAN_VERSION }}"
           artifacts: "build/output/images/*"
           allowUpdates: true
           removeArtifacts: false
