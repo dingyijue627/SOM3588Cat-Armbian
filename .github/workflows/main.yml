@@ -19,7 +19,7 @@ on:
 
       RELEASE:
         type: choice
-        description: 'Userspace'
+        description: 'RELEASE'
         options:
         - jammy
         - bookworm
@@ -51,7 +51,7 @@ on:
 
       DOCKERIMAGE:
         type: choice
-        description: 'DOCKER_ARMBIAN_BASE_IMAGE'
+        description: 'DOCKER IMAGE'
         options:
         - ubuntu:jammy
         - ubuntu:noble
