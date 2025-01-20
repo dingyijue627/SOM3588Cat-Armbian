@@ -106,19 +106,19 @@ jobs:
           ./compile.sh \
           BOARD=${{ inputs.BOARD }} \
           BRANCH=${{ inputs.BRANCH }} \
-          RELEASE=${{ inputs.RELEASE }} \
+          RELEASE=${{ matrix.RELEASE }} \
           BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
           BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
           KERNEL_CONFIGURE=no \
           DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
           DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
           DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
-          EXPERT=yes \
+          EXPERT=${{ env.expert }} \
           BOARD_FIRMWARE_INSTALL="-full" \
           USE_CCACHE=yes \
           SHARE_LOG=no \
           DEBUG=yes \
-          SEVENZIP=yes \
+          VENDOR=Armbian \
           ENABLE_EXTENSIONS=mesa-vpu \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
