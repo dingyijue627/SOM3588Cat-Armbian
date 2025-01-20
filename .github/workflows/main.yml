@@ -45,8 +45,8 @@ on:
         type: choice
         description: 'PREFER DOCKER'
         options:
-        - yes
         - no
+        - yes
         default: 'no'
 
       DOCKERIMAGE:
@@ -127,7 +127,7 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ]
+      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
           # go to build folder
