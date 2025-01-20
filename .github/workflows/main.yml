@@ -149,7 +149,7 @@ jobs:
           SHARE_LOG="yes" \
           PREFER_DOCKER="${{ inputs.DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
-          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \\
+          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
