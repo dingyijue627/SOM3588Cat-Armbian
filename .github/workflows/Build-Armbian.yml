@@ -131,8 +131,8 @@ jobs:
           BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
           BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
           KERNEL_CONFIGURE=no \
-          PREFER_DOCKER=${{ inputs.DOCKER }} \
-          DOCKER_ARMBIAN_BASE_IMAGE=${{ inputs.DOCKERIMAGE }} \ 
+          //PREFER_DOCKER=${{ inputs.DOCKER }} \
+          //DOCKER_ARMBIAN_BASE_IMAGE=${{ inputs.DOCKERIMAGE }} \ 
           DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
           DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
           DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
@@ -141,6 +141,7 @@ jobs:
           USE_CCACHE=yes \
           SHARE_LOG=no \
           DEBUG=yes \
+          SEVENZIP=yes \
           ENABLE_EXTENSIONS=mesa-vpu \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
