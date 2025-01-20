@@ -41,6 +41,14 @@ on:
         - kde-plasma
         default: 'server'
         
+      ROOTFS:
+        description: "ROOTFS TYPE "
+        type: choice
+        options:
+          - ext4
+          - btrfs
+        default: "ext4"
+          
       DOCKER:
         type: choice
         description: 'PREFER DOCKER'
@@ -131,9 +139,13 @@ jobs:
           BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
           BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
           KERNEL_CONFIGURE=no \
+          PREFER_DOCKER=${{ inputs.DOCKER }} \
+          DOCKER_ARMBIAN_BASE_IMAGE=${{ inputs.DOCKERIMAGE }} \ 
+          CI=yes \
           DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
           DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
           DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
+          ROOTFS_TYPE=${{ inputs.ROOTFS }} \
           EXPERT=yes \
           BOARD_FIRMWARE_INSTALL="-full" \
           USE_CCACHE=yes \
