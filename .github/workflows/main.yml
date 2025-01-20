@@ -126,6 +126,7 @@ jobs:
           SHARE_LOG="yes" \
           PREFER_DOCKER="no" \
           DOCKER_ARMBIAN_BASE_IMAGE="ubuntu:noble" \
+          ROOTFS_TYPE="btrfs" \
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
