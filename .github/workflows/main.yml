@@ -40,6 +40,31 @@ on:
         - i3-wm
         - kde-plasma
         default: 'server'
+        
+      DOCKER:
+        type: choice
+        description: 'PREFER DOCKER'
+        options:
+        - yes
+        - no
+        default: 'no'
+
+      DOCKERIMAGE:
+        type: choice
+        description: 'DOCKER_ARMBIAN_BASE_IMAGE'
+        options:
+        - ubuntu:jammy
+        - ubuntu:noble
+        - debian:bookworm
+        default: 'ubuntu:jammy'
+        
+      ROOTFS:
+        type: choice
+        description: 'ROOTFS TYPE'
+        options:
+        - ext4
+        - btrfs
+        default: 'ext4'
 
 env:
   TZ: Asia/Shanghai
@@ -109,8 +134,7 @@ jobs:
           cd ./build
 
           # execute build command
-          ./compile.sh "${{ inputs.armbian_target }}" \
-          REVISION="${{ env.ARMBIAN_VERSION }}" \
+          ./compile.sh \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE="${{ inputs.RELEASE }}" \
@@ -121,12 +145,11 @@ jobs:
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
           ENABLE_EXTENSIONS="mesa-vpu" \
-          COMPRESS_OUTPUTIMAGE="sha,gpg,xz" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          PREFER_DOCKER="no" \
-          DOCKER_ARMBIAN_BASE_IMAGE="ubuntu:noble" \
-          ROOTFS_TYPE="btrfs" \
+          PREFER_DOCKER="${{ inputs.DOCKER}}" \
+          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
+          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \\
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
