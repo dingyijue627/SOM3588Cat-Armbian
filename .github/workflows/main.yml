@@ -121,6 +121,7 @@ jobs:
           PREFER_DOCKER="yes" \
           DOCKER_ARMBIAN_BASE_IMAGEu="buntu:noble" \
           EXPERT="yes" \
+          VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
       - name: "Generate body file"
