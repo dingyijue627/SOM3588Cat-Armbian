@@ -141,7 +141,6 @@ jobs:
           USE_CCACHE=yes \
           SHARE_LOG=no \
           DEBUG=yes \
-          SEVENZIP=yes \
           ENABLE_EXTENSIONS=mesa-vpu \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
