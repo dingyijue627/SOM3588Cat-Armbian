@@ -49,25 +49,6 @@ on:
           - btrfs
         default: "ext4"
           
-      DOCKER:
-        type: choice
-        description: 'PREFER DOCKER'
-        options:
-        - yes
-        - no
-        default: 'yes'
-        
-      DOCKERIMAGE:
-        type: choice
-        description: 'PREFER DOCKER'
-        options:
-        - ubuntu:jammy
-        - ubuntu:noble
-        - docker-armbian-build:armbian-ubuntu-noble-latest
-        default: 'ubuntu:jammy'
-
-
-
 env:
   TZ: Asia/Shanghai
 
@@ -139,7 +120,6 @@ jobs:
           BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
           BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
           KERNEL_CONFIGURE=no \
-          DOCKER_ARMBIAN_BASE_IMAGE=${{ inputs.DOCKERIMAGE }} \ 
           DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
           DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
           DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
