@@ -119,7 +119,7 @@ jobs:
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           PREFER_DOCKER="yes" \
-          DOCKER_ARMBIAN_BASE_IMAGEu="buntu:noble" \
+          DOCKER_ARMBIAN_BASE_IMAGEu="ubuntu:noble" \
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
