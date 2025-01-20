@@ -1,7 +1,7 @@
 # Rockchip RK3588S octa core 4/8/16GB RAM SoC Type-C GBE USB3 WiFi/BT NVMe eMMC
 BOARD_NAME="SOM3588Cat"
 BOARDFAMILY="rockchip-rk3588"
-BOARD_MAINTAINER=""
+BOARD_MAINTAINER="YAN"
 BOOTCONFIG="som3588-cat_defconfig"
 BOOT_SOC="rk3588"
 KERNEL_TARGET="vendor,edge"
@@ -28,4 +28,7 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 
 	return 0
+}
+function post_family_config__uboot_som3588cat() {
+	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
 }
