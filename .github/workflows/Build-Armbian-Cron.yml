@@ -3,8 +3,6 @@ on:
   schedule:
     - cron: "0 21 * * *"
 
-name: "Build-Armbian-test"
-on:
   workflow_dispatch:
     inputs:
     
@@ -21,7 +19,7 @@ on:
         - edge
         - vendor
         default: 'vendor'
-        
+
       DESKTOP:
         type: choice
         description: 'DESKTOP'
@@ -69,30 +67,28 @@ jobs:
     strategy:
       matrix:
         RELEASE:
-        - jammy
-        - bookworm
-        - noble
-        - bullseye
-        - trixie
-        
+          - jammy
+          - bookworm
+          - noble
+          - bullseye
+          - trixie
+          
     steps:
-      - name: "Checkout customisations"
+      - name: "Checkout Armbian"
         uses: actions/checkout@main
         with:
           fetch-depth: 0
           clean: false
           path: custom
           
-      - name: "Checkout Armbian build"
-        uses: actions/checkout@main
+      - uses: actions/checkout@main
         with:
           repository: armbian/build
           clean: false
           ref: main
           path: build
           
-      - name: "Checkout Armbian os"
-        uses: actions/checkout@main
+      - uses: actions/checkout@main
         with:
           repository: armbian/os
           fetch-depth: 0
@@ -116,50 +112,38 @@ jobs:
             echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
-
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
-          
-          # read version from upstream Armbian OS
-          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
-          [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
           mkdir -p  ./build/userpatches
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-          
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ]
         shell: bash
         run: |
           # go to build folder
           cd ./build
-
           # execute build command
           ./compile.sh \
-          REVISION="${{ env.ARMBIAN_VERSION }}" \
-          BOARD="${{ inputs.BOARD }}" \
-          BRANCH="${{ inputs.BRANCH }}" \
+          BOARD=${{ inputs.BOARD }} \
+          BRANCH=${{ inputs.BRANCH }} \
           RELEASE=${{ matrix.RELEASE }} \
-          KERNEL_CONFIGURE="no" \
-          BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
-          BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
-          DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
-          DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
-          DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
-          ENABLE_EXTENSIONS="mesa-vpu" \
+          BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
+          BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
+          KERNEL_CONFIGURE=no \
+          DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
+          DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
+          DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
+          EXPERT=${{ env.expert }} \
           BOARD_FIRMWARE_INSTALL="-full" \
-          SHARE_LOG="yes" \
-          BETA=no \
-          PREFER_DOCKER="${{ inputs.DOCKER}}" \
-          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
-          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
-          EXPERT="yes" \
+          USE_CCACHE=yes \
+          SHARE_LOG=no \
+          DEBUG=yes \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
-
       - name: "Generate body file"
         if: success()
         run: |
@@ -173,22 +157,20 @@ jobs:
               <a href='https://www.armbian.com'><img alt='Armbian Linux rolling' src='https://img.shields.io/badge/dynamic/json?label=Armbian%20Linux%20edge&query=EDGE&color=34be5b&cacheSeconds=600&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2Farmbian%2Fscripts%2Freleases%2Fdownload%2Fstatus%2Frunners_capacity.json'></a>
               </p>
               <br>
-
               - Board: ${{ inputs.BOARD }} 
-              - Version: V${{ env.ARMBIAN_VERSION }} 
+              - Version: V${{ env.VERSIONOS }} 
               - Verification: sha256sum 
               
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
               <br>
               &nbsp;
               </p>" > body.html
-              
       - name: Upload Armbian to Release 
         uses: ncipollo/release-action@main
         if: success()
         with:
-          tag: "Armbian_V${{ env.ARMBIAN_VERSION }}"
-          name: "Armbian_V${{ env.ARMBIAN_VERSION }}"
+          tag: "Armbian_V${{ env.VERSIONOS }}"
+          name: "Armbian_V${{ env.VERSIONOS }}"
           artifacts: "build/output/images/*"
           allowUpdates: true
           removeArtifacts: false
