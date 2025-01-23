@@ -69,11 +69,12 @@ jobs:
     strategy:
       matrix:
         RELEASE:
-          - jammy
-          - bookworm
-          - noble
-          - bullseye
-          - trixie
+        - jammy
+        - bookworm
+        - noble
+        - bullseye
+        - trixie
+        
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -129,6 +130,7 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
+          
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ]
         shell: bash
         run: |
@@ -175,10 +177,12 @@ jobs:
               - Board: ${{ inputs.BOARD }} 
               - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
+              
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
               <br>
               &nbsp;
               </p>" > body.html
+              
       - name: Upload Armbian to Release 
         uses: ncipollo/release-action@main
         if: success()
