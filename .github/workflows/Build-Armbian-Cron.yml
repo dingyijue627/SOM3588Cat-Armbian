@@ -3,6 +3,8 @@ on:
   schedule:
     - cron: "0 21 * * *"
 
+name: "Build-Armbian-test"
+on:
   workflow_dispatch:
     inputs:
     
@@ -19,7 +21,7 @@ on:
         - edge
         - vendor
         default: 'vendor'
-
+        
       DESKTOP:
         type: choice
         description: 'DESKTOP'
@@ -32,6 +34,31 @@ on:
         - i3-wm
         - kde-plasma
         default: 'server'
+        
+      DOCKER:
+        type: choice
+        description: 'PREFER DOCKER'
+        options:
+        - no
+        - yes
+        default: 'no'
+
+      DOCKERIMAGE:
+        type: choice
+        description: 'DOCKER IMAGE'
+        options:
+        - ubuntu:jammy
+        - ubuntu:noble
+        - debian:bookworm
+        default: 'ubuntu:jammy'
+        
+      ROOTFS:
+        type: choice
+        description: 'ROOTFS TYPE'
+        options:
+        - ext4
+        - btrfs
+        default: 'ext4'
 
 env:
   TZ: Asia/Shanghai
@@ -45,8 +72,8 @@ jobs:
           - jammy
           - bookworm
           - noble
+          - bullseye
           - trixie
-          
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -92,6 +119,10 @@ jobs:
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          
+          # read version from upstream Armbian OS
+          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
           mkdir -p  ./build/userpatches
@@ -106,20 +137,24 @@ jobs:
 
           # execute build command
           ./compile.sh \
-          BOARD=${{ inputs.BOARD }} \
-          BRANCH=${{ inputs.BRANCH }} \
+          REVISION="${{ env.ARMBIAN_VERSION }}" \
+          BOARD="${{ inputs.BOARD }}" \
+          BRANCH="${{ inputs.BRANCH }}" \
           RELEASE=${{ matrix.RELEASE }} \
-          BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
-          BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
-          KERNEL_CONFIGURE=no \
-          DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
-          DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
-          DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
-          EXPERT=${{ env.expert }} \
+          KERNEL_CONFIGURE="no" \
+          BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
+          BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
+          DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
+          DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
+          DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
+          ENABLE_EXTENSIONS="mesa-vpu" \
           BOARD_FIRMWARE_INSTALL="-full" \
-          USE_CCACHE=yes \
-          SHARE_LOG=no \
-          DEBUG=yes \
+          SHARE_LOG="yes" \
+          BETA=no \
+          PREFER_DOCKER="${{ inputs.DOCKER}}" \
+          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
+          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
+          EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
@@ -138,9 +173,8 @@ jobs:
               <br>
 
               - Board: ${{ inputs.BOARD }} 
-              - Version: V${{ env.VERSIONOS }} 
+              - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
-              
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
               <br>
               &nbsp;
@@ -149,8 +183,8 @@ jobs:
         uses: ncipollo/release-action@main
         if: success()
         with:
-          tag: "Armbian_V${{ env.VERSIONOS }}"
-          name: "Armbian_V${{ env.VERSIONOS }}"
+          tag: "Armbian_V${{ env.ARMBIAN_VERSION }}"
+          name: "Armbian_V${{ env.ARMBIAN_VERSION }}"
           artifacts: "build/output/images/*"
           allowUpdates: true
           removeArtifacts: false
