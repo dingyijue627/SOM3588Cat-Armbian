@@ -113,8 +113,11 @@ jobs:
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
           # read version from upstream Armbian OS
-          echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
-          echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          # echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
+          # echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/VERSION=/' >> $GITHUB_ENV
+          [[ "${{ inputs.version }}" != '' ]] && echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
+         
          
           # copy os userpatches
           mkdir -p  ./build/userpatches
@@ -128,22 +131,27 @@ jobs:
           cd ./build
           # execute build command
           ./compile.sh \
-          BOARD=${{ inputs.BOARD }} \
-          BRANCH=${{ inputs.BRANCH }} \
+          REVISION="${{ env.VERSION }}" \
+          BOARD="${{ inputs.BOARD }}" \
+          BRANCH="${{ inputs.BRANCH }}" \
           RELEASE=${{ matrix.RELEASE }} \
-          BUILD_MINIMAL=${{ env.BUILD_MINIMAL }} \
-          BUILD_DESKTOP=${{ env.BUILD_DESKTOP }} \
-          KERNEL_CONFIGURE=no \
-          DESKTOP_ENVIRONMENT=${{ env.DESKTOP_ENVIRONMENT }} \
-          DESKTOP_ENVIRONMENT_CONFIG_NAME=${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }} \
-          DESKTOP_APPGROUPS_SELECTED=${{ env.DESKTOP_APPGROUPS_SELECTED }} \
-          EXPERT=${{ env.expert }} \
+          KERNEL_CONFIGURE="no" \
+          BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
+          BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
+          DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
+          DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
+          DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
+          ENABLE_EXTENSIONS="mesa-vpu" \
           BOARD_FIRMWARE_INSTALL="-full" \
-          USE_CCACHE=yes \
-          SHARE_LOG=no \
-          DEBUG=yes \
+          SHARE_LOG="yes" \
+          BETA=no \
+          PREFER_DOCKER="${{ inputs.DOCKER}}" \
+          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
+          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
+          EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
+          
       - name: "Generate body file"
         if: success()
         run: |
