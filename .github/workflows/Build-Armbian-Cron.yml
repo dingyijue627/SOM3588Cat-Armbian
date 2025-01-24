@@ -70,7 +70,6 @@ jobs:
           - jammy
           - bookworm
           - noble
-          - bullseye
           - trixie
           
     steps:
