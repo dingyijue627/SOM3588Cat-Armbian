@@ -37,9 +37,8 @@ on:
         type: choice
         description: 'PREFER DOCKER'
         options:
-        - yes
         - no
-        default: 'no'
+        - yes
 
       DOCKERIMAGE:
         type: choice
@@ -63,15 +62,15 @@ env:
 
 jobs:
   Armbian:  
-    runs-on: ubuntu-22.04 
+    runs-on: ubuntu-24.04 
     strategy:
       matrix:
         RELEASE:
           - jammy
           - bookworm
           - noble
+          - bullseye
           - trixie
-          
     steps:
       - name: "Checkout Armbian"
         uses: actions/checkout@main
