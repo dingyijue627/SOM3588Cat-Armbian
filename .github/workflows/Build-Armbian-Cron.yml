@@ -87,25 +87,26 @@ jobs:
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
           # read version from upstream Armbian OS
-          # echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
-          # echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
-          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/VERSION=/' >> $GITHUB_ENV
-          [[ "${{ inputs.version }}" != '' ]] && echo "VERSION=${{ inputs.version }}" >> $GITHUB_ENV
-         
+          echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
+          echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          
+          # read version from upstream Armbian OS
+          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
           mkdir -p  ./build/userpatches
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ matrix.RELEASE }} ${{ env.VERSION }} ]
+      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ matrix.RELEASE }} ${{ env.ARMBIAN_VERSION }} ]
         shell: bash
         run: |
           # go to build folder
           cd ./build
           # execute build command
           ./compile.sh \
-          REVISION="${{ env.VERSION }}" \
+          REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE=${{ matrix.RELEASE }} \
@@ -138,7 +139,7 @@ jobs:
               </p>
               <br>
               - Board: ${{ inputs.BOARD }} 
-              - Version: V${{ env.VERSIONOS }} 
+              - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
               
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
@@ -149,8 +150,8 @@ jobs:
         uses: ncipollo/release-action@main
         if: success()
         with:
-          tag: "Armbian_V${{ env.VERSIONOS }}"
-          name: "Armbian_V${{ env.VERSIONOS }}"
+          tag: "Armbian_V${{ env.ARMBIAN_VERSION }}"
+          name: "Armbian_V${{ env.ARMBIAN_VERSION }}"
           artifacts: "build/output/images/*"
           allowUpdates: true
           removeArtifacts: false
