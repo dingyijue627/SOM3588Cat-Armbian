@@ -120,6 +120,7 @@ jobs:
           SHARE_LOG="yes" \
           BETA=no \
           EXPERT="yes" \
+          IMAGE_XZ_COMPRESSION_RATIO=9 \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
           
