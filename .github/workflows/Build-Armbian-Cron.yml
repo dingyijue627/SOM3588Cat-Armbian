@@ -32,31 +32,7 @@ on:
         - i3-wm
         - kde-plasma
         default: 'server'
-        
-      DOCKER:
-        type: choice
-        description: 'PREFER DOCKER'
-        options:
-        - no
-        - yes
-
-      DOCKERIMAGE:
-        type: choice
-        description: 'DOCKER IMAGE'
-        options:
-        - ubuntu:jammy
-        - ubuntu:noble
-        - debian:bookworm
-        default: 'ubuntu:jammy'
-        
-      ROOTFS:
-        type: choice
-        description: 'ROOTFS TYPE'
-        options:
-        - ext4
-        - btrfs
-        default: 'ext4'
-
+      
 env:
   TZ: Asia/Shanghai
 
@@ -143,9 +119,6 @@ jobs:
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA=no \
-          PREFER_DOCKER="${{ inputs.DOCKER}}" \
-          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
-          ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
