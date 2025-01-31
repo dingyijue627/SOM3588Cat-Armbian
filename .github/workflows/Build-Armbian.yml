@@ -145,7 +145,7 @@ jobs:
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
-          ENABLE_EXTENSIONS="mesa-vpu" \
+          ENABLE_EXTENSIONS="" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA=no \
@@ -154,6 +154,7 @@ jobs:
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
+          IMAGE_XZ_COMPRESSION_RATIO=9 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
 
       - name: "Generate body file"
