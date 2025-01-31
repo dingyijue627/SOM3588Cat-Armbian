@@ -45,7 +45,6 @@ jobs:
           - jammy
           - bookworm
           - noble
-          - bullseye
           - trixie
     steps:
       - name: "Checkout Armbian"
