@@ -47,17 +47,11 @@ on:
         options:
         - no
         - yes
-        default: 'no'
-
-      DOCKERIMAGE:
-        type: choice
-        description: 'DOCKER IMAGE'
-        options:
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
-        default: 'ubuntu:jammy'
-        
+        default: 'no'
+      
       ROOTFS:
         type: choice
         description: 'ROOTFS TYPE'
@@ -113,7 +107,15 @@ jobs:
             echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
-
+          
+          # userspace decode DOCKER
+          if [[ "${{ inputs.DOCKER }}" == "no" ]]; then
+            echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
+          else
+            echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
+            echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
+          fi
+          
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
@@ -149,8 +151,8 @@ jobs:
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA=no \
-          PREFER_DOCKER="${{ inputs.DOCKER}}" \
-          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
+          PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
+          DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
