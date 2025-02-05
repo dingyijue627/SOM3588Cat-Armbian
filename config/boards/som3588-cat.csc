@@ -31,5 +31,5 @@ function post_family_tweaks__som3588cat_naming_audios() {
 }
 function post_family_config__uboot_som3588cat() {
 	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
-	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip'
+	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
 }
