@@ -49,7 +49,7 @@ on:
         - ubuntu:noble
         - debian:bookworm
         - Actions
-        default: 'ubuntu:jammy'
+        default: 'Actions'
       
       ROOTFS:
         type: choice
