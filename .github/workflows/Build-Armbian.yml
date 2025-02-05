@@ -114,6 +114,10 @@ jobs:
             echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
             echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
           fi
+
+          #update
+          sudo apt-get -y update
+          sudo apt-get -y installl software-properties-common
           
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
