@@ -48,7 +48,7 @@ on:
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
-        - no
+        - Actions
         default: 'ubuntu:jammy'
       
       ROOTFS:
@@ -108,7 +108,7 @@ jobs:
           fi
           
           # userspace decode DOCKER
-          if [[ "${{ inputs.DOCKER }}" == "no" ]]; then
+          if [[ "${{ inputs.DOCKER }}" == "Actions" ]]; then
             echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
           else
             echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
