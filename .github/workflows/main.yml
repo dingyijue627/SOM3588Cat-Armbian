@@ -66,10 +66,6 @@ env:
 jobs:
   Armbian:  
     runs-on: ubuntu-latest 
-    strategy:
-      matrix:
-        RELEASE: ${{ env.RELEASE_MATRIX }}
-
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -144,6 +140,11 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
+  Armbian1:  
+    strategy:
+      matrix:
+        RELEASE: ${{ env.RELEASE_MATRIX }}
+    steps:
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
