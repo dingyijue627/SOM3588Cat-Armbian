@@ -45,11 +45,10 @@ on:
         type: choice
         description: 'PREFER DOCKER'
         options:
-        - no
-        - yes
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
+        - no
         default: 'no'
       
       ROOTFS:
