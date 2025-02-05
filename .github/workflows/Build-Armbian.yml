@@ -1,7 +1,5 @@
 name: "Build-Armbian"
 on:
-  schedule:
-    cron: '30 5 * * 1,3'
   workflow_dispatch:
     inputs:
     
