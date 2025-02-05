@@ -65,7 +65,21 @@ env:
 
 jobs:
   Armbian:  
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest  
+    teps:
+      - name: Set Env
+        shell: bash
+        run: |
+          # userspace decode RELEASE
+          if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
+            echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
+          else
+            echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
+          fi
+      
+    strategy:
+      matrix:
+        RELEASE: ${{ env.RELEASE_MATRIX }}
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -121,11 +135,11 @@ jobs:
           fi
           
           # userspace decode RELEASE
-          if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
-            echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
-          else
-            echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
-          fi
+          #if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
+          #  echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
+          #else
+          #  echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
+         # fi
           
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
@@ -140,11 +154,6 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-  Armbian1:  
-    strategy:
-      matrix:
-        RELEASE: ${{ env.RELEASE_MATRIX }}
-    steps:
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
