@@ -26,7 +26,6 @@ on:
         - noble
         - bullseye
         - trixie
-        - all
         default: 'trixie'
 
       DESKTOP:
@@ -66,20 +65,9 @@ env:
 jobs:
   Armbian:  
     runs-on: ubuntu-latest  
-    teps:
-      - name: Set Env
-        shell: bash
-        run: |
-          # userspace decode RELEASE
-          if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
-            echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
-          else
-            echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
-          fi
-      
     strategy:
       matrix:
-        RELEASE: ${{ env.RELEASE_MATRIX }}
+        RELEASE: [jammy, noble, trixie, bookworm, bullseye]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -133,13 +121,6 @@ jobs:
             echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
             echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
           fi
-          
-          # userspace decode RELEASE
-          #if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
-          #  echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
-          #else
-          #  echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
-         # fi
           
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
