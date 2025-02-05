@@ -26,6 +26,7 @@ on:
         - noble
         - bullseye
         - trixie
+        - all
         default: 'trixie'
 
       DESKTOP:
@@ -63,11 +64,49 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
+  Armbian-Env:  
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Set Env
+        shell: bash
+        run: |
+          sudo apt update -y
+          sudo apt-get full-upgrade -y
+          sudo apt-get install -y software-properties-common
+          
+          # userspace decode
+          if [[ "${{ inputs.DESKTOP }}" == "minimal" ]]; then
+            echo "BUILD_DESKTOP="no"" >> $GITHUB_ENV
+            echo "BUILD_MINIMAL="yes"" >> $GITHUB_ENV
+          elif [[ "${{ inputs.DESKTOP }}" == "server" ]]; then
+            echo "BUILD_DESKTOP="no"" >> $GITHUB_ENV
+            echo "BUILD_MINIMAL="no"" >> $GITHUB_ENV
+          else
+            echo "BUILD_DESKTOP="yes"" >> $GITHUB_ENV
+            echo "BUILD_MINIMAL="no"" >> $GITHUB_ENV
+            echo "DESKTOP_ENVIRONMENT="${{ inputs.DESKTOP }}"" >> $GITHUB_ENV
+            echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
+            echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
+          fi
+          
+          # userspace decode DOCKER
+          if [[ "${{ inputs.DOCKER }}" == "Actions" ]]; then
+            echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
+          else
+            echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
+            echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
+          fi
+          # userspace decode RELEASE
+          if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
+            echo "RELEASE_MATRIX="[jammy, noble, trixie, bookworm, bullseye]"" >> $GITHUB_ENV
+          else
+            echo "RELEASE_MATRIX="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
+          fi  
   Armbian:  
     runs-on: ubuntu-latest  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye]
+        RELEASE: ${{ env.RELEASE_MATRIX }}
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
