@@ -2,13 +2,13 @@
 BOARD_NAME="SOM3588Cat"
 BOARDFAMILY="rockchip-rk3588"
 BOARD_MAINTAINER="YAN"
-BOOTCONFIG="som3588-cat_defconfig"
+BOOTCONFIG="rk3588-som3588-cat_defconfig"
 BOOT_SOC="rk3588"
 KERNEL_TARGET="vendor,edge"
 KERNEL_TEST_TARGET="vendor"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
-BOOT_FDT_FILE="rockchip/som3588-cat.dtb"
+BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
 BOOT_SCENARIO="spl-blobs"
 BOOT_SUPPORT_SPI="yes"
 BOOT_SPI_RKSPI_LOADER="yes"
@@ -28,7 +28,4 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 
 	return 0
-}
-function post_family_config__uboot_som3588cat() {
-	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
 }
