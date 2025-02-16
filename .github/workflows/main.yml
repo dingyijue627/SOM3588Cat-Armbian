@@ -60,13 +60,6 @@ on:
         - btrfs
         default: 'ext4'
         
-      KERNEL:
-        type: choice
-        description: 'KERNEL'
-        options:
-        - Armbian
-        - CNflysky
-        default: 'Armbian'
         
 env:
   TZ: Asia/Shanghai
