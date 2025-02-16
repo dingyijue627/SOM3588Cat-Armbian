@@ -151,7 +151,6 @@ jobs:
           cd ./build
           # execute build command
           ./compile.sh \
-          REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE="${{ matrix.RELEASE }}" \
