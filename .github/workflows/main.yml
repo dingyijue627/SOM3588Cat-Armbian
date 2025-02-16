@@ -124,19 +124,17 @@ jobs:
           
           # userspace decode DOCKER
           if [[ "${{ inputs.DOCKER }}" == "Actions" ]]; then
-            echo "KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'" >> $GITHUB_ENV
-            echo "KERNELBRANCH='branch:rk-6.1-rkr4.1'" >> $GITHUB_ENV  
+            echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
           else
-            echo " " >> $GITHUB_ENV
+            echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
+            echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
           fi
-
 
           # userspace decode KERNEL
           if [[ "${{ inputs.KERNEL }}" == "CNflyskys" ]]; then
             echo "KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'" >> $GITHUB_ENV
             echo "KERNELBRANCH='branch:rk-6.1-rkr4.1'" >> $GITHUB_ENV            
           else
-            echo "" >> $GITHUB_ENV
           fi
 
           # read version from upstream Armbian OS
