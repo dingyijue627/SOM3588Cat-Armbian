@@ -163,6 +163,8 @@ jobs:
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE="${{ matrix.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
+          KERNELSOURCE="${{ matrix.KERNELSOURCE }}" \
+          KERNELBRANCH="${{ matrix.KERNELBRANCH }}" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
