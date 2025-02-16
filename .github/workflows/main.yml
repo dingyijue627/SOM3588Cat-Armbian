@@ -130,15 +130,6 @@ jobs:
             echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
           fi
 
-          # userspace decode KERNEL
-          if [[ "${{ inputs.KERNEL }}" == "CNflyskys" ]]; then
-            echo "KERNELSOURCE="https://github.com/CNflysky/linux-rockchip.git"" >> $GITHUB_ENV
-            echo "KERNELBRANCH="branch:rk-6.1-rkr4.1"" >> $GITHUB_ENV            
-          else
-            echo "KERNELSOURCE="https://github.com/armbian/linux-rockchip.git"" >> $GITHUB_ENV
-            echo "KERNELBRANCH="branch:rk-6.1-rkr5"" >> $GITHUB_ENV 
-          fi
-
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
@@ -164,8 +155,6 @@ jobs:
           BRANCH="${{ inputs.BRANCH }}" \
           RELEASE="${{ matrix.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
-          KERNELSOURCE="${{ matrix.KERNELSOURCE }}" \
-          KERNELBRANCH="${{ matrix.KERNELBRANCH }}" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
