@@ -29,7 +29,7 @@ function post_family_tweaks__som3588cat_naming_audios() {
 
 	return 0
 }
-function post_family_config_branch_vendor__kernel_som3588cat() {
-	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
-	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
-}
+#function post_family_config_branch_vendor__kernel_som3588cat() {
+#	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
+#	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
+#}
