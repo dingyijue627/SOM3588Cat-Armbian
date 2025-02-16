@@ -132,10 +132,10 @@ jobs:
 
           # userspace decode KERNEL
           if [[ "${{ inputs.KERNEL }}" == "CNflyskys" ]]; then
-            echo "KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'" >> $GITHUB_ENV
-            echo "KERNELBRANCH='branch:rk-6.1-rkr4.1'" >> $GITHUB_ENV            
+            echo "KERNELSOURCE="https://github.com/CNflysky/linux-rockchip.git"" >> $GITHUB_ENV
+            echo "KERNELBRANCH="branch:rk-6.1-rkr4.1"" >> $GITHUB_ENV            
           else
-            echo "KERNELSOURCE='https://github.com/armbian/linux-rockchip.git'" >> $GITHUB_ENV
+            echo "KERNELSOURCE="https://github.com/armbian/linux-rockchip.git"" >> $GITHUB_ENV
           fi
 
           # read version from upstream Armbian OS
