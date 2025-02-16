@@ -63,9 +63,9 @@ on:
         type: choice
         description: 'KERNEL'
         options:
-        - YANXIAOXI
+        - Armbian
         - CNflysky
-        default: 'YANXIAOXI'
+        default: 'Armbian'
         
 env:
   TZ: Asia/Shanghai
@@ -136,6 +136,7 @@ jobs:
             echo "KERNELBRANCH="branch:rk-6.1-rkr4.1"" >> $GITHUB_ENV            
           else
             echo "KERNELSOURCE="https://github.com/armbian/linux-rockchip.git"" >> $GITHUB_ENV
+            echo "KERNELBRANCH="branch:rk-6.1-rkr5"" >> $GITHUB_ENV 
           fi
 
           # read version from upstream Armbian OS
