@@ -187,7 +187,7 @@ jobs:
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
-          IMAGE_XZ_COMPRESSION_RATIO=3 \
+          IMAGE_XZ_COMPRESSION_RATIO=5 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
           
       - name: "Generate body file"
