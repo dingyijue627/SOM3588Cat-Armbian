@@ -157,7 +157,7 @@ jobs:
           ENABLE_EXTENSIONS="" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          # BETA=no \
+          BETA=yes \
           PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
