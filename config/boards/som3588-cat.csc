@@ -29,7 +29,6 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	return 0
 }
 function post_family_config__uboot_som3588cat() {
-	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
 	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
 }
 
