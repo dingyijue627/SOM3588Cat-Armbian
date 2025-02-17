@@ -15,8 +15,6 @@ on:
         options:
         - edge
         - vendor
-        - legacy
-        - CNflysky
         default: 'vendor'
 
       RELEASE:
