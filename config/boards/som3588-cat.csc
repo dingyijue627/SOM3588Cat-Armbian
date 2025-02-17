@@ -4,8 +4,8 @@ BOARDFAMILY="rockchip-rk3588"
 BOARD_MAINTAINER="YAN"
 BOOTCONFIG="rk3588-som3588-cat_defconfig"
 BOOT_SOC="rk3588"
-KERNEL_TARGET="vendor,edge,CNflysky"
-KERNEL_TEST_TARGET="vendor,edge,CNflysky"
+KERNEL_TARGET="vendor,edge"
+KERNEL_TEST_TARGET="vendor,edge"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
@@ -29,13 +29,6 @@ function post_family_tweaks__som3588cat_naming_audios() {
 
 	return 0
 }
-function post_family_config_branch_CNflysky__kernel_som3588cat() {
-	if [[ $BRANCH == "CNflysky" ]]; then
-		BRANCH='vendor'
-		KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
-		KERNELBRANCH='branch:rk-6.1-rkr4.1'
-	fi
-}
+
 #	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
 #	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
-#}
