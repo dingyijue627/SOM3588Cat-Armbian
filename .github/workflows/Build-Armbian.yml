@@ -45,12 +45,19 @@ on:
         type: choice
         description: 'PREFER DOCKER'
         options:
+        - no
+        - yes
+        default: 'no'
+
+      DOCKERIMAGE:
+        type: choice
+        description: 'DOCKER IMAGE'
+        options:
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
-        - Actions
-        default: 'Actions'
-      
+        default: 'ubuntu:jammy'
+        
       ROOTFS:
         type: choice
         description: 'ROOTFS TYPE'
@@ -64,7 +71,7 @@ env:
 
 jobs:
   Armbian:  
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-24.04 
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -92,10 +99,6 @@ jobs:
       - name: Set Env
         shell: bash
         run: |
-          sudo apt update -y
-          sudo apt-get full-upgrade -y
-          sudo apt-get install -y software-properties-common
-          
           # userspace decode
           if [[ "${{ inputs.DESKTOP }}" == "minimal" ]]; then
             echo "BUILD_DESKTOP="no"" >> $GITHUB_ENV
@@ -110,15 +113,6 @@ jobs:
             echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
-          
-          # userspace decode DOCKER
-          if [[ "${{ inputs.DOCKER }}" == "Actions" ]]; then
-            echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
-          else
-            echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
-            echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
-          fi
-          
           # read version from upstream Armbian OS
           echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
@@ -137,7 +131,6 @@ jobs:
         run: |
           # go to build folder
           cd ./build
-
           # execute build command
           ./compile.sh \
           REVISION="${{ env.ARMBIAN_VERSION }}" \
@@ -150,18 +143,16 @@ jobs:
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
-          ENABLE_EXTENSIONS="" \
+          ENABLE_EXTENSIONS="mesa-vpu" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA=no \
-          PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
-          DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
+          PREFER_DOCKER="${{ inputs.DOCKER}}" \
+          DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKERIMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
-          IMAGE_XZ_COMPRESSION_RATIO=9 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
-
       - name: "Generate body file"
         if: success()
         run: |
@@ -179,7 +170,7 @@ jobs:
               - Board: ${{ inputs.BOARD }} 
               - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
-              
+
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
               <br>
               &nbsp;
