@@ -48,7 +48,7 @@ on:
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
-        - 操作
+        - ubuntu-22.04
         default: 'ubuntu:jammy'
       
       ROOTFS:
@@ -71,7 +71,7 @@ env:
 
 jobs:
   Armbian:  
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-22.04  
     strategy:
       matrix:
         RELEASE: [jammy, noble, trixie, bookworm, bullseye]
