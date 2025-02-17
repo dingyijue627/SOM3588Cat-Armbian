@@ -29,12 +29,8 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	return 0
 }
 function post_family_config__uboot_som3588cat() {
-	display_alert "$BOARD" "Configuring armsom u-boot" "info"
-	declare -g BOOTSOURCE='https://github.com/radxa/u-boot.git'
 	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
-	declare -g OVERLAY_PREFIX='rockchip-rk3588'
-	declare -g BOOTDELAY=1 # build injects this into u-boot config. we can then get into UMS mode and avoid the whole rockusb/rkdeveloptool thing
-
+	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
 }
 
 #	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
