@@ -153,6 +153,10 @@ jobs:
           [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
+          
+          # IMAGE_XZ_COMPRESSION_RATIO=9 \
+          # RELEASE="${{ matrix.RELEASE }}" \
+          
           mkdir -p  ./build/userpatches
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
@@ -167,7 +171,6 @@ jobs:
           REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
-          # RELEASE="${{ matrix.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
@@ -183,7 +186,6 @@ jobs:
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
-          IMAGE_XZ_COMPRESSION_RATIO=9 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
           
       - name: "Generate body file"
