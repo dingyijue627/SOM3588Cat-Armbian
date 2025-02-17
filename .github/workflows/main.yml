@@ -70,7 +70,7 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  SOM3588Cat Armbian:  
+  SOM3588Cat_Armbian:  
     runs-on: ubuntu-22.04  
     strategy:
       matrix:
