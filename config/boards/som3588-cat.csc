@@ -34,6 +34,8 @@ function post_family_config__uboot_som3588cat() {
 	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
 	declare -g OVERLAY_PREFIX='rockchip-rk3588'
 	declare -g BOOTDELAY=1 # build injects this into u-boot config. we can then get into UMS mode and avoid the whole rockusb/rkdeveloptool thing
+
+	declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
 }
 
 #	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
