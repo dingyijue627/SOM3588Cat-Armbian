@@ -31,14 +31,9 @@ function post_family_tweaks__som3588cat_naming_audios() {
 }
 function post_family_config_branch_CNflysky__kernel_som3588cat() {
 	if [[ $BRANCH == "CNflysky" ]]; then
-		BOOTSCRIPT='boot-rk35xx.cmd:boot.cmd'
-		BOOTDIR='u-boot-rockchip64'
-		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
-		declare -g -i KERNEL_GIT_CACHE_TTL=120 # 2 minutes; this is a high-traffic repo
+		BRANCH='vendor'
 		KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
 		KERNELBRANCH='branch:rk-6.1-rkr4.1'
-		KERNELPATCHDIR='rk35xx-vendor-6.1'
-		LINUXFAMILY=rk35xx
 	fi
 }
 #	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
