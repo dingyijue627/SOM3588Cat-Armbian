@@ -20,7 +20,6 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	display_alert "$BOARD" "Renaming SOM3588Cat audios" "info"
 
 	mkdir -p $SDCARD/etc/udev/rules.d/
-
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"' > $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi1-sound", ENV{SOUND_DESCRIPTION}="HDMI1 Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmiin-sound", ENV{SOUND_DESCRIPTION}="HDMI-In Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
@@ -28,6 +27,13 @@ function post_family_tweaks__som3588cat_naming_audios() {
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 
 	return 0
+}
+function post_family_config__uboot_som3588cat() {
+	display_alert "$BOARD" "Configuring armsom u-boot" "info"
+	declare -g BOOTSOURCE='https://github.com/radxa/u-boot.git'
+	declare -g BOOTBRANCH="branch:next-dev-v2024.10"
+	declare -g OVERLAY_PREFIX='rockchip-rk3588'
+	declare -g BOOTDELAY=1 # build injects this into u-boot config. we can then get into UMS mode and avoid the whole rockusb/rkdeveloptool thing
 }
 
 #	declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
