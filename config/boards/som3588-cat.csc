@@ -4,8 +4,8 @@ BOARDFAMILY="rockchip-rk3588"
 BOARD_MAINTAINER="YAN"
 BOOTCONFIG="rk3588-som3588-cat_defconfig"
 BOOT_SOC="rk3588"
-KERNEL_TARGET="vendor,edge,legacy"
-KERNEL_TEST_TARGET="vendor,edge,legacy"
+KERNEL_TARGET="vendor,edge,CNflysky"
+KERNEL_TEST_TARGET="vendor,edge,CNflysky"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
@@ -29,8 +29,8 @@ function post_family_tweaks__som3588cat_naming_audios() {
 
 	return 0
 }
-function post_family_config_branch_legacy__kernel_som3588cat() {
-	if [[ $BRANCH == "legacy" ]]; then
+function post_family_config_branch_CNflysky__kernel_som3588cat() {
+	if [[ $BRANCH == "CNflysky" ]]; then
 		BOOTSCRIPT='boot-rk35xx.cmd:boot.cmd'
 		BOOTDIR='u-boot-rockchip64'
 		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
