@@ -136,7 +136,7 @@ jobs:
           fi
           
           # userspace decode DOCKER
-          if [[ "${{ inputs.DOCKER }}" == "Actions" ]]; then
+          if [[ "${{ inputs.DOCKER }}" == "ubuntu-22.04" ]]; then
             echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
           else
             echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
