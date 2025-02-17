@@ -61,6 +61,12 @@ on:
         - btrfs
         default: 'ext4'
         
+      nightlybuild:
+        description: 'yes = nighlty, no = stable'
+        required: false
+        options: [ 'yes', 'no' ]
+        type: choice
+        default: 'no'
         
 env:
   TZ: Asia/Shanghai
@@ -144,7 +150,8 @@ jobs:
           echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
           
           # read version from upstream Armbian OS
-          cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          #cat os/nightly.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
+          cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
           [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
