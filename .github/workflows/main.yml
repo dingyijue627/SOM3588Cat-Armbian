@@ -93,6 +93,20 @@ jobs:
           fetch-depth: 0
           clean: false
           path: os
+
+      - name: Determine version
+        id: versionfile
+        run: |
+          # file = where version is getting stored, different for stable and nightly
+          # skip_tag = we only upload nighlty to GH releases
+          echo "file=nightly" >> $GITHUB_OUTPUT
+          echo "skip_tag=false" >> $GITHUB_OUTPUT
+          echo "pre_release=true" >> $GITHUB_OUTPUT
+          if [ "${{ github.event.inputs.nightlybuild || 'no' }}" == "no" ]; then
+              echo "file=stable" >> $GITHUB_OUTPUT
+              echo "skip_tag=true" >> $GITHUB_OUTPUT
+              echo "pre_release=false" >> $GITHUB_OUTPUT
+          fi
           
       - name: Set Env
         shell: bash
@@ -157,7 +171,7 @@ jobs:
           ENABLE_EXTENSIONS="" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          BETA=yes \
+          BETA=${{ github.event.inputs.nightlybuild || 'no' }} \
           PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
