@@ -75,7 +75,7 @@ env:
 
 jobs:
   SOM3588_Cat_Armbian:  
-    runs-on: ubuntu-22.04  
+    runs-on: ubuntu-latest 
     strategy:
       matrix:
         RELEASE: [jammy,trixie, bullseye]
@@ -154,6 +154,9 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
+          
+          git status
+          docker pull ghcr.io/armbian/docker-armbian-build:armbian-ubuntu-jammy-latest
           
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
