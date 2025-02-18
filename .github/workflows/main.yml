@@ -70,7 +70,7 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  SOM3588Cat_Armbian:  
+  SOM3588_Cat_Armbian:  
     runs-on: ubuntu-22.04  
     strategy:
       matrix:
@@ -144,23 +144,16 @@ jobs:
           fi
 
           # read version from upstream Armbian OS
-          echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
-          echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
-          
-          # read version from upstream Armbian OS
           cat "os/nightly.json" | jq '.version' | sed "s/\"//g" | sed 's/^/VERSION_OVERRIDE=/' >> $GITHUB_ENV
           #cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
           [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
          
           # copy os userpatches
-          
-          # 
-          # 
-          
           mkdir -p  ./build/userpatches
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
+          
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
@@ -203,12 +196,13 @@ jobs:
               <a href='https://www.armbian.com'><img alt='Armbian Linux rolling' src='https://img.shields.io/badge/dynamic/json?label=Armbian%20Linux%20edge&query=EDGE&color=34be5b&cacheSeconds=600&style=for-the-badge&url=https%3A%2F%2Fgithub.com%2Farmbian%2Fscripts%2Freleases%2Fdownload%2Fstatus%2Frunners_capacity.json'></a>
               </p>
               <br>
-              
+
               - Board: ${{ inputs.BOARD }} 
               - Version: V${{ env.ARMBIAN_VERSION }} 
               - Verification: sha256sum 
-              
+
               Please note that Armbian Rolling Releases are not recommended for production environments, as these builds are not thoroughly tested. However, in most cases, they should work well. 
+
               <br>
               &nbsp;
               </p>" > body.html
