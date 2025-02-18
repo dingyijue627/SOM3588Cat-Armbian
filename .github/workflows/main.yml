@@ -78,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm]
+        RELEASE: [jammy, noble, trixie, bookworm, bullseye]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -143,8 +143,12 @@ jobs:
               echo "skip_tag=true" >> $GITHUB_OUTPUT
               echo "pre_release=false" >> $GITHUB_OUTPUT
           fi
-
+          
           # read version from upstream Armbian OS
+          echo "CURRENT_YEAR_MONTH=$(date +'%Y%m')" >> $GITHUB_ENV
+          echo "VERSIONOS=$(cat build/VERSION)" >> $GITHUB_ENV
+          
+          # read VERSION_OVERRIDE from upstream Armbian OS
           cat "os/nightly.json" | jq '.version' | sed "s/\"//g" | sed 's/^/VERSION_OVERRIDE=/' >> $GITHUB_ENV
           #cat os/stable.json | jq '.version' | sed "s/\"//g" | sed 's/^/ARMBIAN_VERSION=/' >> $GITHUB_ENV
           [[ "${{ inputs.armbian_version }}" != '' ]] && echo "ARMBIAN_VERSION=${{ inputs.armbian_version }}" >> $GITHUB_ENV
@@ -183,7 +187,6 @@ jobs:
           VENDOR=Armbian \
           IMAGE_XZ_COMPRESSION_RATIO=5 \
           COMPRESS_OUTPUTIMAGE=sha,gpg,xz
-          
       - name: "Generate body file"
         if: success()
         run: |
