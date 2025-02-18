@@ -7,14 +7,14 @@ BOOT_SOC="rk3588"
 KERNEL_TARGET="vendor"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
-BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
+BOOT_FDT_FILE="rockchip/som3588-cat.dtb"
 BOOT_SCENARIO="spl-blobs"
 BOOT_SUPPORT_SPI="yes"
 BOOT_SPI_RKSPI_LOADER="yes"
 IMAGE_PARTITION_TABLE="gpt"
 
-function post_family_tweaks__som3588cat_naming_audios() {
-	display_alert "$BOARD" "Renaming SOM3588Cat audios" "info"
+function post_family_tweaks__som3588-cat_naming_audios() {
+	display_alert "$BOARD" "Renaming som3588-cat audios" "info"
 
 	mkdir -p $SDCARD/etc/udev/rules.d/
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmi0-sound", ENV{SOUND_DESCRIPTION}="HDMI0 Audio"' > $SDCARD/etc/udev/rules.d/90-naming-audios.rules
