@@ -52,7 +52,7 @@ on:
         - ubuntu:jammy
         - ubuntu:noble
         - debian:bookworm
-        - ubuntu-22.04
+        - ubuntu-latest
         default: 'ubuntu:jammy'
       
       ROOTFS:
@@ -75,7 +75,7 @@ env:
 
 jobs:
   SOM3588_Cat_Armbian:  
-    runs-on: ubuntu-22.04  
+    runs-on: ubuntu-latest  
     strategy:
       matrix:
         RELEASE: [jammy, noble, trixie, bookworm]
@@ -106,9 +106,9 @@ jobs:
       - name: Set Env
         shell: bash
         run: |
-          sudo apt update -y
-          sudo apt-get full-upgrade -y
-          sudo apt-get install -y software-properties-common
+          #sudo apt update -y
+          #sudo apt-get full-upgrade -y
+          #sudo apt-get install -y software-properties-common
           
           # userspace decode
           if [[ "${{ inputs.DESKTOP }}" == "minimal" ]]; then
