@@ -98,21 +98,7 @@ jobs:
           fetch-depth: 0
           clean: false
           path: os
-
-      - name: Determine version
-        id: versionfile
-        run: |
-          # file = where version is getting stored, different for stable and nightly
-          # skip_tag = we only upload nighlty to GH releases
-          echo "file=nightly" >> $GITHUB_OUTPUT
-          echo "skip_tag=false" >> $GITHUB_OUTPUT
-          echo "pre_release=true" >> $GITHUB_OUTPUT
-          if [ "${{ github.event.inputs.nightlybuild || 'no' }}" == "no" ]; then
-              echo "file=stable" >> $GITHUB_OUTPUT
-              echo "skip_tag=true" >> $GITHUB_OUTPUT
-              echo "pre_release=false" >> $GITHUB_OUTPUT
-          fi
-          
+    
       - name: Set Env
         shell: bash
         run: |
@@ -141,6 +127,17 @@ jobs:
           else
             echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
             echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
+          fi
+
+          # file = where version is getting stored, different for stable and nightly
+          # skip_tag = we only upload nighlty to GH releases
+          echo "file=nightly" >> $GITHUB_OUTPUT
+          echo "skip_tag=false" >> $GITHUB_OUTPUT
+          echo "pre_release=true" >> $GITHUB_OUTPUT
+          if [ "${{ github.event.inputs.nightlybuild || 'no' }}" == "no" ]; then
+              echo "file=stable" >> $GITHUB_OUTPUT
+              echo "skip_tag=true" >> $GITHUB_OUTPUT
+              echo "pre_release=false" >> $GITHUB_OUTPUT
           fi
 
           # read version from upstream Armbian OS
