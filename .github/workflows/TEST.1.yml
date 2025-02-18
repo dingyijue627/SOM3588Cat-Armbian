@@ -131,9 +131,6 @@ jobs:
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
           
-          git status
-          docker pull ghcr.io/armbian/docker-armbian-build:armbian-ubuntu-jammy-latest
-          
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
