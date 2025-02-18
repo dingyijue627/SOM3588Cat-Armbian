@@ -26,6 +26,10 @@ on:
         - noble
         - bullseye
         - trixie
+        - focal
+        - oracular
+        - plucky
+        - sid
         default: 'trixie'
 
       DESKTOP:
@@ -74,7 +78,7 @@ jobs:
     runs-on: ubuntu-22.04  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye, focal, oracular, plucky, sid]
+        RELEASE: [jammy, noble, trixie, bookworm, bullseye]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -161,7 +165,7 @@ jobs:
           REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
-          RELEASE="${{ inputs.RELEASE }}" \
+          RELEASE="${{ matrix.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
