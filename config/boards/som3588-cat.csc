@@ -26,7 +26,7 @@ function post_family_tweaks__som3588cat_naming_audios() {
 }
 
 # Mainline u-boot
-function post_family_config_branch_som3588cat_use_mainline_uboot() {
+function post_family_config_branch_vendor__som3588cat_use_mainline_uboot() {
 	display_alert "$BOARD" "mainline (next branch) u-boot overrides for $BOARD / $BRANCH" "info"
 
 	declare -g BOOTCONFIG="som3588-cat_defconfig"
