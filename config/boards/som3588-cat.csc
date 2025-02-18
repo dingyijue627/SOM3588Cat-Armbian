@@ -9,8 +9,8 @@ FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 BOOT_FDT_FILE="rockchip/som3588-cat.dtb"
 BOOT_SCENARIO="spl-blobs"
-BOOT_SUPPORT_SPI="yes"
-BOOT_SPI_RKSPI_LOADER="yes"
+#BOOT_SUPPORT_SPI="yes"
+#BOOT_SPI_RKSPI_LOADER="yes"
 IMAGE_PARTITION_TABLE="gpt"
 
 function post_family_tweaks__som3588-cat_naming_audios() {
