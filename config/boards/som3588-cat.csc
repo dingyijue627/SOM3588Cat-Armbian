@@ -1,10 +1,10 @@
 # Rockchip RK3588S octa core 4/8/16GB RAM SoC Type-C GBE USB3 WiFi/BT NVMe eMMC
 BOARD_NAME="SOM3588Cat"
 BOARDFAMILY="rockchip-rk3588"
-BOARD_MAINTAINER="YAN"
-BOOTCONFIG="rk3588-som3588-cat_defconfig"
+BOARD_MAINTAINER=""
+BOOTCONFIG="som3588-cat_defconfig"
 BOOT_SOC="rk3588"
-KERNEL_TARGET="vendor,edge"
+KERNEL_TARGET="vendor"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
