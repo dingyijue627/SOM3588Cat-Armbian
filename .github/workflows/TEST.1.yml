@@ -44,16 +44,6 @@ on:
         - i3-wm
         - kde-plasma
         default: 'server'
-        
-      DOCKER:
-        type: choice
-        description: 'PREFER DOCKER'
-        options:
-        - ubuntu:jammy
-        - ubuntu:noble
-        - debian:bookworm
-        - ubuntu-22.04
-        default: 'ubuntu:jammy'
       
       ROOTFS:
         type: choice
@@ -122,13 +112,6 @@ jobs:
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
           
-          # userspace decode DOCKER
-          if [[ "${{ inputs.DOCKER }}" == "ubuntu-22.04" ]]; then
-            echo "PREFER_DOCKER="no"" >> $GITHUB_ENV
-          else
-            echo "PREFER_DOCKER="yes"" >> $GITHUB_ENV
-            echo "DOCKER_ARMBIAN_BASE_IMAGE="${{ inputs.DOCKER }}"" >> $GITHUB_ENV
-          fi
 
           # file = where version is getting stored, different for stable and nightly
           # skip_tag = we only upload nighlty to GH releases
