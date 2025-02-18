@@ -161,7 +161,7 @@ jobs:
           REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
-          RELEASE="${{ matrix.RELEASE }}" \
+          RELEASE="${{ inputs.RELEASE }}" \
           KERNEL_CONFIGURE="no" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
