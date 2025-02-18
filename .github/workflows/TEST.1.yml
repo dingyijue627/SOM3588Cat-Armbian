@@ -75,10 +75,7 @@ env:
 
 jobs:
   SOM3588_Cat_Armbian:  
-    runs-on: ubuntu-latest 
-    strategy:
-      matrix:
-        RELEASE: [jammy,trixie, bullseye]
+    runs-on: ubuntu-latest
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -167,7 +164,7 @@ jobs:
           ./compile.sh \
           BOARD=${{ inputs.BOARD }} \
           BRANCH=${{ inputs.BRANCH }} \
-          RELEASE=${{ matrix.RELEASE }} \
+          RELEASE=${{ inputs.RELEASE }} \
           BUILD_MINIMAL=${{ env.BUILD_DESKTOP }} \
           BUILD_DESKTOP=${{ env.BUILD_MINIMAL }} \
           KERNEL_CONFIGURE=no \
