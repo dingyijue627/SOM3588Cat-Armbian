@@ -86,7 +86,7 @@ jobs:
     runs-on: ubuntu-latest  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye, oracular]
+        RELEASE: [jammy, noble, trixie, bookworm, bullseye, oracular, sid]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
