@@ -17,21 +17,6 @@ on:
         - vendor
         default: 'vendor'
 
-      RELEASE:
-        type: choice
-        description: 'RELEASE'
-        options:
-        - jammy
-        - bookworm
-        - noble
-        - bullseye
-        - trixie
-        - focal
-        - oracular
-        - plucky
-        - sid
-        default: 'trixie'
-
       DESKTOP:
         type: choice
         description: 'DESKTOP'
