@@ -13,7 +13,7 @@ SOM3588Cat是基于 Rockchip RK3588 处理器的 SOM（System on Module）开发
   - Wi-Fi 和蓝牙 (Wi-Fi/BT)。
   - Type-C 接口。
 - **扩展性**：支持 SPI 和其他常用扩展接口。
-- **硬件兼容性**：Lubancat5 开发板
+- **兼容性**：Lubancat5 开发板
 
 ## 项目优势
 
