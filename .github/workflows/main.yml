@@ -76,7 +76,7 @@ on:
         required: false
         options: [ 'yes', 'no' ]
         type: choice
-        default: 'no'
+        default: 'yes'
         
 env:
   TZ: Asia/Shanghai
@@ -187,7 +187,7 @@ jobs:
           ENABLE_EXTENSIONS="${{ inputs.EXTENSIONSs || ' '  }}" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
-          BETA=${{ github.event.inputs.nightlybuild || 'no' }} \
+          BETA="${{ inputs.nightlybuild }}" \
           PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
           DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
