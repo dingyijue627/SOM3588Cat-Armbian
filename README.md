@@ -36,8 +36,8 @@ SOM3588Cat是基于 Rockchip RK3588 处理器的 SOM（System on Module）开发
 
 ### 1. 触发编译
 
-- 提交代码或手动触发 GitHub Actions 工作流。
-- 编译完成后，编译输出（如镜像文件、内核包等）将存储在 GitHub 的 Actions Artifacts 中。
+- 手动触发 GitHub Actions 工作流。
+- 编译完成后，编译输出（镜像文件）将存储在 GitHub 的 Actions Artifacts 中。
 
 ### 2. 下载和部署
 
