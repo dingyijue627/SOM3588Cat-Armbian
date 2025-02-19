@@ -1,5 +1,3 @@
-# SOM3588Cat-Armbian
-通过GitHub Actions云编译构建SOM3588Cat-Armbian
 ## 项目概述
 SOM3588Cat是基于 Rockchip RK3588 处理器的 SOM（System on Module）开发板，专为高性能嵌入式应用设计。该项目通过 GitHub Actions 实现自动化云编译，方便开发者快速构建和部署基于 Armbian 的系统。
 
