@@ -49,8 +49,8 @@ on:
         type: choice
         description: "Armbian lists of extensions"
         options:
+        - 
         - mesa-vpu
-        -  
         default: " "
 
       DOCKER:
