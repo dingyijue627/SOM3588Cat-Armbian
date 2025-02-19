@@ -44,7 +44,14 @@ on:
         - i3-wm
         - kde-plasma
         default: 'server'
-        
+
+      EXTE_extensions:
+        type: choice
+        description: "Armbian lists of extensions"
+        options:
+        - mesa-vpu
+        default: ""
+
       DOCKER:
         type: choice
         description: 'PREFER DOCKER'
@@ -176,7 +183,7 @@ jobs:
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
-          ENABLE_EXTENSIONS="" \
+          ENABLE_EXTENSIONS="${{ inputs.EXTENSIONSs || ' '  }}" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA=${{ github.event.inputs.nightlybuild || 'no' }} \
