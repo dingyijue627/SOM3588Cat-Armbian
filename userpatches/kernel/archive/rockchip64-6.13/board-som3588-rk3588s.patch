@@ -1,10 +1,9 @@
 --- a/arch/arm64/boot/dts/rockchip/rk3588s.dtsi	2025-02-20 01:03:12.071129700 +0800
-+++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi	2025-02-20 23:53:11.836546600 +0800
-@@ -1,8 +1,7014 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-
-
++++ b/arch/arm64/boot/dts/rockchip/rk3588s.dtsi	2025-02-21 00:14:35.343466922 +0800
+@@ -6,3 +6,7012 @@
+ 
+ #include "rk3588-base.dtsi"
+ #include "rk3588-opp.dtsi"
 +#include <dt-bindings/clock/rk3588-cru.h>
 +#include <dt-bindings/gpio/gpio.h>
 +#include <dt-bindings/interrupt-controller/arm-gic.h>
