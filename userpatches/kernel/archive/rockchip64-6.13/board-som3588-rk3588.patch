@@ -1,9 +1,9 @@
 --- a/arch/arm64/boot/dts/rockchip/rk3588.dtsi	2025-02-20 01:03:12.071129700 +0800
-+++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi	2025-02-20 23:54:16.792660400 +0800
-@@ -1,8 +1,926 @@
- // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
- /*
-
++++ b/arch/arm64/boot/dts/rockchip/rk3588.dtsi	2025-02-21 00:14:05.761245581 +0800
+@@ -6,3 +6,924 @@
+ 
+ #include "rk3588-extra.dtsi"
+ #include "rk3588-opp.dtsi"
 +#include <dt-bindings/phy/phy-snps-pcie3.h>
 +#include "rk3588s.dtsi"
 +#include "rk3588-vccio3-pinctrl.dtsi"
