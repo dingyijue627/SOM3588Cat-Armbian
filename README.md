@@ -1,9 +1,6 @@
 ## 项目概述
 SOM3588Cat是基于 Rockchip RK3588 处理器的 SOM（System on Module）开发板，专为高性能嵌入式应用设计。该项目通过 GitHub Actions 实现自动化云编译，方便开发者快速构建和部署基于 Armbian 的系统。
 
-![顶部安装图](https://github.com/user-attachments/assets/c7e2f2ff-1a24-4d4d-9f27-1bcd77c067f1)
-
-
 ## 开发板特性
 
 - **处理器**：Rockchip RK3588，八核高性能处理器。
