@@ -29,10 +29,11 @@ function post_family_config_branch_legacy__kernel_som3588cat() {
 		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
 		declare -g ARTIFACT_NAME="kernel-rk35xx-vendor"
 		declare -g -i KERNEL_GIT_CACHE_TTL=120 # 2 minutes; this is a high-traffic repo
-		KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
-		KERNELBRANCH='branch:rk-6.1-rkr4.1'
-		KERNECONFIG="linux-rk35xx-vendor"
-		KERNELPATCHDIR='rk35xx-vendor-6.1'
-		LINUXFAMILY=rk35xx
+		declare -g KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
+		declare -g KERNELBRANCH='branch:rk-6.1-rkr4.1'
+		declare -g LINUXCONFIG="linux-rk35xx-vendor"
+		declare -g KERNECONFIG="linux-rk35xx-vendor"
+		declare -g KERNELPATCHDIR='rk35xx-vendor-6.1'
+		declare -g LINUXFAMILY=rk35xx
 	fi
 }
