@@ -4,7 +4,7 @@ BOARDFAMILY="rockchip-rk3588"
 BOARD_MAINTAINER="YANXIAOXIH"
 BOOTCONFIG="som3588-cat_defconfig"
 BOOT_SOC="rk3588"
-KERNEL_TARGET="vendor,edge"
+KERNEL_TARGET="legacy,vendor,edge"
 FULL_DESKTOP="yes"
 BOOT_LOGO="desktop"
 BOOT_FDT_FILE="rockchip/rk3588-som3588-cat.dtb"
@@ -21,4 +21,15 @@ function post_family_tweaks__som3588-cat_naming_audios() {
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-hdmiin-sound", ENV{SOUND_DESCRIPTION}="HDMI-In Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 	echo 'SUBSYSTEM=="sound", ENV{ID_PATH}=="platform-es8388-sound", ENV{SOUND_DESCRIPTION}="ES8388 Audio"' >> $SDCARD/etc/udev/rules.d/90-naming-audios.rules
 	return 0
+}
+function post_family_config_branch_legacy_kernel_som3588cat() {
+	if [[ $BRANCH == "legacy" ]]; then
+		BOOTDIR='u-boot-rockchip64'
+		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
+		declare -g -i KERNEL_GIT_CACHE_TTL=120 # 2 minutes; this is a high-traffic repo
+		KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
+		KERNELBRANCH='branch:rk-6.1-rkr4.1'
+		KERNELPATCHDIR='rk35xx-vendor-6.1'
+		LINUXFAMILY=rk35xx
+	fi
 }
