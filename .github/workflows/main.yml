@@ -16,7 +16,21 @@ on:
         - edge
         - vendor
         default: 'vendor'
-
+        
+      RELEASE:
+        type: choice
+        description: 'RELEASE'
+        options:
+        - jammy
+        - bookworm
+        - noble
+        - bullseye
+        - trixie
+        - oracular
+        - sid
+        - all
+        default: 'trixie'
+        
       DESKTOP:
         type: choice
         description: 'DESKTOP'
@@ -67,11 +81,9 @@ env:
   TZ: Asia/Shanghai
 
 jobs:
-  SOM3588_Cat_Armbian:  
-    runs-on: ubuntu-latest  
-    strategy:
-      matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye, oracular, sid]
+  config:
+    runs-on: ubuntu-latest
+    name: Create martrix
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -95,7 +107,6 @@ jobs:
           fetch-depth: 0
           clean: false
           path: os
-    
       - name: Set Env
         shell: bash
         run: |
@@ -116,6 +127,13 @@ jobs:
             echo "DESKTOP_ENVIRONMENT="${{ inputs.DESKTOP }}"" >> $GITHUB_ENV
             echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
+          fi
+          
+          # userspace decode DOCKER
+          if [[ "${{ inputs.RELEASE }}" == "all" ]]; then
+            echo "RELEASE="jammy, noble, trixie, bookworm, bullseye, oracular, sid"" >> $GITHUB_ENV
+          else
+            echo "RELEASE="${{ inputs.RELEASE }}"" >> $GITHUB_ENV
           fi
           
           # userspace decode DOCKER
@@ -151,8 +169,15 @@ jobs:
           cp -rf ./custom/config/* ./build/config
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
-          
-      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
+
+  SOM3588_Cat_Armbian:  
+    runs-on: ubuntu-latest  
+    strategy:
+      matrix:
+        RELEASE: "${{ env.RELEASE }}"
+
+ 
+      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ matrix.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
           # go to build folder
