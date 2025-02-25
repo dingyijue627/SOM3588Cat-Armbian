@@ -26,6 +26,7 @@ function post_family_config_branch_legacy__kernel_som3588cat() {
 	if [[ $BRANCH == "legacy" ]]; then
 		BOOTDIR='u-boot-rockchip64'
 		declare -g KERNEL_MAJOR_MINOR="6.1"    # Major and minor versions of this kernel.
+		declare -g ARTIFACT_NAME="kernel-rk35xx-vendor"
 		declare -g -i KERNEL_GIT_CACHE_TTL=120 # 2 minutes; this is a high-traffic repo
 		KERNELSOURCE='https://github.com/CNflysky/linux-rockchip.git'
 		KERNELBRANCH='branch:rk-6.1-rkr4.1'
