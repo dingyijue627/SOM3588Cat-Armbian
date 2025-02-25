@@ -1,4 +1,5 @@
 name: "Build-Armbian-Test"
+run-name: " Nightly build"
 on:
   workflow_dispatch:
     inputs:
@@ -84,6 +85,8 @@ jobs:
   config:
     runs-on: ubuntu-latest
     name: Create martrix
+    outputs:
+      Armbian_matrix: ${{ steps.Armbian.outputs.env.RELEASE }}
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -170,13 +173,12 @@ jobs:
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
 
-  SOM3588_Cat_Armbian:  
+  Armbian:  
     runs-on: ubuntu-latest 
     needs: [config]
     strategy:
       matrix:
-        RELEASE: "${{ env.RELEASE }}"
-
+        RELEASE: ${{ fromJson((needs.config.outputs.Armbian_matrix) }}
  
       - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ matrix.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
@@ -188,7 +190,7 @@ jobs:
           REVISION="${{ env.ARMBIAN_VERSION }}" \
           BOARD="${{ inputs.BOARD }}" \
           BRANCH="${{ inputs.BRANCH }}" \
-          RELEASE="${{ matrix.RELEASE }}" \
+          RELEASE="${{ Armbian_matrix }}" \
           KERNEL_CONFIGURE="no" \
           BUILD_DESKTOP="${{ env.BUILD_DESKTOP }}" \
           BUILD_MINIMAL="${{ env.BUILD_MINIMAL }}" \
