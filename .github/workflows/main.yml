@@ -1,5 +1,5 @@
 name: "Build-Armbian-Test"
-run-name: " Nightly build"
+run-name: "Test build"
 on:
   workflow_dispatch:
     inputs:
