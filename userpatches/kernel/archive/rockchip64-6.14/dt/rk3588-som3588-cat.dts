@@ -21,7 +21,7 @@
 
 
 / {
-	model = "SOM3588 Cat";
+	model = "SOM3588Cat";
 	compatible = "rockchip,som3588-cat", "rockchip,rk3588";
 
 	/* If hdmirx node is disabled, delete the reserved-memory node here. */
