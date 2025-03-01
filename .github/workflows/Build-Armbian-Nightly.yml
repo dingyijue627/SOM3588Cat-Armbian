@@ -1,7 +1,5 @@
 name: "Build-Armbian-Nightly"
 on:
-  schedule:
-    - cron: "0  4 1/2 * *"
   workflow_dispatch:
     inputs:
     
