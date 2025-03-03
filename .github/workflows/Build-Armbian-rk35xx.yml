@@ -7,7 +7,7 @@ on:
         type: choice
         description: 'Board'
         options:
-        - rock-5c
+        - zw-21
 
 
       BRANCH:
@@ -24,11 +24,6 @@ on:
         options:
         - minimal
         - server
-        - xfce
-        - gnome
-        - cinnamon
-        - i3-wm
-        - kde-plasma
         default: 'server'
 
       EXTE_extensions:
@@ -72,7 +67,7 @@ jobs:
     runs-on: ubuntu-latest  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye, oracular, sid]
+        RELEASE: [jammy, noble, bookworm, sid]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main

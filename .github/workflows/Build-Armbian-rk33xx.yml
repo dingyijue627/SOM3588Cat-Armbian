@@ -1,4 +1,4 @@
-name: "Build-Armbian-Nightly"
+name: "Build-Armbian"
 on:
   workflow_dispatch:
     inputs:
@@ -7,15 +7,24 @@ on:
         type: choice
         description: 'Board'
         options:
-        - rock-5c
+        - eaidk-310
+
 
       BRANCH:
         type: choice
         description: 'Kernel branch'
         options:
         - edge
-        - vendor
-        default: 'vendor'
+        - current
+        default: 'current'
+
+      DESKTOP:
+        type: choice
+        description: 'DESKTOP'
+        options:
+        - minimal
+        - server
+        default: 'server'
 
       EXTE_extensions:
         type: choice
@@ -55,11 +64,10 @@ env:
 
 jobs:
   Armbian:  
-    runs-on: ubuntu-22.04  
+    runs-on: ubuntu-latest  
     strategy:
       matrix:
-        RELEASE: [jammy, noble, trixie, bookworm, bullseye, oracular, sid]
-        DESKTOP: [minimal, server]
+        RELEASE: [jammy, noble, bookworm, sid]
     steps:
       - name: "Checkout customisations"
         uses: actions/checkout@main
@@ -87,21 +95,21 @@ jobs:
       - name: Set Env
         shell: bash
         run: |
-          sudo apt update -y
-          sudo apt-get full-upgrade -y
-          sudo apt-get install -y software-properties-common
+          #sudo apt update -y
+          #sudo apt-get full-upgrade -y
+          #sudo apt-get install -y software-properties-common
           
           # userspace decode
-          if [[ "${{ matrix.DESKTOP }}" == "minimal" ]]; then
+          if [[ "${{ inputs.DESKTOP }}" == "minimal" ]]; then
             echo "BUILD_DESKTOP="no"" >> $GITHUB_ENV
             echo "BUILD_MINIMAL="yes"" >> $GITHUB_ENV
-          elif [[ "${{ matrix.DESKTOP }}" == "server" ]]; then
+          elif [[ "${{ inputs.DESKTOP }}" == "server" ]]; then
             echo "BUILD_DESKTOP="no"" >> $GITHUB_ENV
             echo "BUILD_MINIMAL="no"" >> $GITHUB_ENV
           else
             echo "BUILD_DESKTOP="yes"" >> $GITHUB_ENV
             echo "BUILD_MINIMAL="no"" >> $GITHUB_ENV
-            echo "DESKTOP_ENVIRONMENT="${{ matrix.DESKTOP }}"" >> $GITHUB_ENV
+            echo "DESKTOP_ENVIRONMENT="${{ inputs.DESKTOP }}"" >> $GITHUB_ENV
             echo "DESKTOP_APPGROUPS_SELECTED="browsers"" >> $GITHUB_ENV
             echo "DESKTOP_ENVIRONMENT_CONFIG_NAME="config_base"" >> $GITHUB_ENV
           fi
@@ -140,7 +148,7 @@ jobs:
           cp -rf ./custom/userpatches/* ./build/userpatches
           cp -rf ./os/userpatches/* ./build/userpatches
           
-      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ matrix.RELEASE }} ${{ matrix.DESKTOP }} ]
+      - name: Compile Armbian [ ${{ inputs.BOARD }} ${{ inputs.RELEASE }} ${{ inputs.DESKTOP }} ]
         shell: bash
         run: |
           # go to build folder
@@ -157,7 +165,6 @@ jobs:
           DESKTOP_ENVIRONMENT="${{ env.DESKTOP_ENVIRONMENT }}" \
           DESKTOP_APPGROUPS_SELECTED="${{ env.DESKTOP_APPGROUPS_SELECTED }}" \
           DESKTOP_ENVIRONMENT_CONFIG_NAME="${{ env.DESKTOP_ENVIRONMENT_CONFIG_NAME }}" \
-          ENABLE_EXTENSIONS="${{ inputs.EXTENSIONSs || ' '  }}" \
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA="${{ inputs.nightlybuild }}" \
