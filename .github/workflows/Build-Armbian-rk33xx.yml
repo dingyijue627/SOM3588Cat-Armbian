@@ -34,16 +34,6 @@ on:
         - mesa-vpu
         default: " "
 
-      DOCKER:
-        type: choice
-        description: 'PREFER DOCKER'
-        options:
-        - ubuntu:jammy
-        - ubuntu:noble
-        - debian:bookworm
-        - ubuntu-latest
-        default: 'ubuntu:jammy'
-      
       ROOTFS:
         type: choice
         description: 'ROOTFS TYPE'
@@ -95,9 +85,9 @@ jobs:
       - name: Set Env
         shell: bash
         run: |
-          #sudo apt update -y
-          #sudo apt-get full-upgrade -y
-          #sudo apt-get install -y software-properties-common
+          sudo apt update -y
+          sudo apt-get full-upgrade -y
+          sudo apt-get install -y software-properties-common
           
           # userspace decode
           if [[ "${{ inputs.DESKTOP }}" == "minimal" ]]; then
@@ -168,8 +158,6 @@ jobs:
           BOARD_FIRMWARE_INSTALL="-full" \
           SHARE_LOG="yes" \
           BETA="${{ inputs.nightlybuild }}" \
-          PREFER_DOCKER="${{ env.PREFER_DOCKER}}" \
-          DOCKER_ARMBIAN_BASE_IMAGE="${{ env.DOCKER_ARMBIAN_BASE_IMAGE }}" \
           ROOTFS_TYPE="${{ inputs.ROOTFS}}" \
           EXPERT="yes" \
           VENDOR=Armbian \
