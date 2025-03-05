@@ -8,6 +8,7 @@ on:
         description: 'Board'
         options:
         - eaidk-310
+        - rock64
 
 
       BRANCH:
