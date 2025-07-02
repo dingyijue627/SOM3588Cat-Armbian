@@ -8,7 +8,7 @@ on:
         description: 'Board'
         options:
         - zw-21
-
+        - radxa-cubie-a5e
 
       BRANCH:
         type: choice
@@ -16,7 +16,8 @@ on:
         options:
         - edge
         - vendor
-        default: 'vendor'
+        - dev
+        default: 'dev'
 
       DESKTOP:
         type: choice
@@ -42,7 +43,7 @@ on:
         - ubuntu:noble
         - debian:bookworm
         - ubuntu-latest
-        default: 'ubuntu:jammy'
+        default: 'debian:bookworm'
       
       ROOTFS:
         type: choice
